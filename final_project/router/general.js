@@ -9,11 +9,13 @@ public_users.post("/register", (req, res) => {
   const password = req.body.password;
   if (!username || !password)
     return res.status(400).send("Missing username or password");
-  for (const user in users) {
-    if (username == users[user]["username"])
-      return res.status(400).send("Username not available");
-  }
-  users.push({"username": username, "password": password});
+
+  let foundUsers = users.filter((user) => {
+    return user.username === username;
+  });
+  if (foundUsers.length > 0)
+    return res.status(400).send("User with that name already exists");
+  users.push({ username: username, password: password });
   return res.send("Registration successful");
 });
 
