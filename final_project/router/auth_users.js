@@ -45,7 +45,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   if (!userReview) return res.send("Error processing review");
 
   books[userISBN]["reviews"][username] = userReview;
-  return res.send("Review added");
+   res.send(`Review added\n${JSON.stringify(books[userISBN])}`);
 });
 regd_users.delete("/auth/review/:isbn", (req, res) => {
   const userISBN = req.params.isbn;
