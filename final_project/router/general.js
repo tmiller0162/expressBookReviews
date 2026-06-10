@@ -27,11 +27,13 @@ public_users.get("/", function (req, res) {
       resolve(JSON.stringify(books), null, 4);
     }, 200);
   });
-  promise.then((response) => {
-    return res.send(response);
-  });
-  //Would implement if Promise could fail
-  //promise.catch()
+  promise
+    .then((response) => {
+      return res.send(response);
+    })
+    .catch((err) => {
+      return res.status(400).send("Data not found");
+    });
 });
 
 // Get book details based on ISBN
