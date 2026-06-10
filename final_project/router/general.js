@@ -1,4 +1,5 @@
 const express = require("express");
+const axios = require("axios");
 let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
@@ -22,7 +23,9 @@ public_users.post("/register", (req, res) => {
 // Get the book list available in the shop
 public_users.get("/", function (req, res) {
   let promise = new Promise((resolve, reject) => {
-    resolve(JSON.stringify(books), null, 4);
+    setTimeout(() => {
+      resolve(JSON.stringify(books), null, 4);
+    }, 200);
   });
   promise.then((response) => {
     return res.send(response);
@@ -34,9 +37,11 @@ public_users.get("/", function (req, res) {
 // Get book details based on ISBN
 public_users.get("/isbn/:isbn", function (req, res) {
   let promise = new Promise((resolve, reject) => {
-    const userISBN = req.params.isbn;
-    if (!books[userISBN]) reject([404, "Book not found"]);
-    resolve(JSON.stringify(books[userISBN]));
+    setTimeout(() => {
+      const userISBN = req.params.isbn;
+      if (!books[userISBN]) reject([404, "Book not found"]);
+      resolve(JSON.stringify(books[userISBN]));
+    }, 200);
   });
   promise
     .then((response) => {
@@ -50,15 +55,17 @@ public_users.get("/isbn/:isbn", function (req, res) {
 // Get book details based on author
 public_users.get("/author/:author", function (req, res) {
   let promise = new Promise((resolve, reject) => {
-    const userAuthor = req.params.author;
-    var foundBooks = [];
-    for (const book in books) {
-      if (books[book]["author"] == userAuthor) {
-        foundBooks.push(books[book]);
+    setTimeout(() => {
+      const userAuthor = req.params.author;
+      var foundBooks = [];
+      for (const book in books) {
+        if (books[book]["author"] == userAuthor) {
+          foundBooks.push(books[book]);
+        }
       }
-    }
-    if (foundBooks.length == 0) reject([404, "Book not found"]);
-    resolve(foundBooks);
+      if (foundBooks.length == 0) reject([404, "Book not found"]);
+      resolve(foundBooks);
+    }, 200);
   });
   promise
     .then((response) => {
@@ -72,15 +79,17 @@ public_users.get("/author/:author", function (req, res) {
 // Get all books based on title
 public_users.get("/title/:title", function (req, res) {
   let promise = new Promise((resolve, reject) => {
-    const userTitle = req.params.title;
-    var foundBook;
-    for (const book in books) {
-      if (books[book]["title"] == userTitle) {
-        foundBook = books[book];
+    setTimeout(() => {
+      const userTitle = req.params.title;
+      var foundBook;
+      for (const book in books) {
+        if (books[book]["title"] == userTitle) {
+          foundBook = books[book];
+        }
       }
-    }
-    if (!foundBook) reject([404, "Book not found"]);
-    resolve(foundBook);
+      if (!foundBook) reject([404, "Book not found"]);
+      resolve(foundBook);
+    }, 200);
   });
   promise
     .then((response) => {
